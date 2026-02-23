@@ -1,0 +1,43 @@
+# Visual Studio
+.vs/
+bin/
+obj/
+packages/
+*.user
+*.suo
+*.userprefs
+*.dll
+*.exe
+*.pdb
+*.cache
+*.vbproj.user
+*.sln.docstates
+
+# Base de datos local
+*.mdf
+*.ldf
+
+# Configuración local
+Web.Debug.config
+Web.Release.config
+
+# Logs
+logs/
+*.log
+
+# Temp
+temp/
+tmp/
+*.tmp
+
+# Archivos de sistema
+Thumbs.db
+*.DS_Store
+
+# NuGet
+/packages/
+project.lock.json
+
+# Publicaciones
+publish/
+PublishScripts/
