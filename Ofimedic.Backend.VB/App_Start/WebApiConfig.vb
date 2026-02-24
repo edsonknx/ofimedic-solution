@@ -1,6 +1,12 @@
-﻿Public Class WebApiApplication
-    Inherits System.Web.HttpApplication
-    Protected Sub Application_Start()
-        GlobalConfiguration.Configure(AddressOf WebApiConfig.Register)
+﻿Imports System.Web.Http
+
+Public Module WebApiConfig
+    Public Sub Register(config As HttpConfiguration)
+        config.MapHttpAttributeRoutes()
+        config.Routes.MapHttpRoute(
+            name:="DefaultApi",
+            routeTemplate:="api/{controller}/{id}",
+            defaults:=New With {.id = RouteParameter.Optional}
+        )
     End Sub
-End Class
+End Module

@@ -1,8 +1,9 @@
-Imports System.Web.Http
+﻿Imports System.Web.Http
 
-Public Class WebApiApplication
+Public Class Global_asax
     Inherits System.Web.HttpApplication
-    Protected Sub Application_Start()
-        GlobalConfiguration.Configure(AddressOf WebApiConfig.Register)
+
+    Sub Application_Start(ByVal sender As Object, ByVal e As EventArgs)
+        WebApiConfig.Register(GlobalConfiguration.Configuration)
     End Sub
 End Class

@@ -112,13 +112,13 @@
     <Content Include="Controllers\AlbumsController.vb" />
     <Content Include="Controllers\PhotosController.vb" />
     <Content Include="Controllers\SyncController.vb" />
-    <Content Include="App_Start\WebApiConfig.vb" />
     <Content Include="App_Data\AppDbContext.vb" />
+    <Content Include="Models\Album.vb" />
+    <Content Include="Models\Photo.vb" />
+    <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Content Include="Models\Album.vb" />
-    <Content Include="Models\Photo.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
