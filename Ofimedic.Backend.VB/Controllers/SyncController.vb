@@ -1,6 +1,7 @@
-Imports System.Web.Http
+﻿Imports System.Web.Http
 Imports Newtonsoft.Json
 Imports System.Threading.Tasks
+Imports System.Net.Http
 
 Public Class SyncController
     Inherits ApiController

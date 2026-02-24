@@ -7,7 +7,7 @@ Public Module ApiHelper
 
     Public Function GetAlbumsAsync(filtro As String) As Task(Of String)
         Try
-            Dim url = "https://localhost:44300/api/albums"
+            Dim url = "https://localhost:44386/api/albums"
             If Not String.IsNullOrEmpty(filtro) Then
                 url &= "?title=" & Uri.EscapeDataString(filtro)
             End If
@@ -19,7 +19,7 @@ Public Module ApiHelper
 
     Public Function GetPhotosAsync(albumId As Integer) As Task(Of String)
         Try
-            Dim url = $"https://localhost:44300/api/photos?albumId={albumId}"
+            Dim url = $"https://localhost:44386/api/photos?albumId={albumId}"
             Return Task.Run(Function() client.DownloadString(url))
         Catch ex As Exception
             Throw New Exception("Error al obtener fotos: " & ex.Message)
@@ -28,7 +28,7 @@ Public Module ApiHelper
 
     Public Function SyncDataAsync() As Task(Of String)
         Try
-            Dim url = "https://localhost:44300/api/sync"
+            Dim url = "https://localhost:44386/api/sync"
             Return Task.Run(Function() client.UploadString(url, "POST", ""))
         Catch ex As Exception
             Throw New Exception("Error al sincronizar: " & ex.Message)

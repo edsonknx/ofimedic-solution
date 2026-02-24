@@ -5,5 +5,6 @@ Public Class Global_asax
 
     Sub Application_Start(ByVal sender As Object, ByVal e As EventArgs)
         WebApiConfig.Register(GlobalConfiguration.Configuration)
+        GlobalConfiguration.Configuration.EnsureInitialized()
     End Sub
 End Class

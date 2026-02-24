@@ -1,4 +1,4 @@
-Public Class Photo
+﻿Public Class Photo
     Public Property Id As Integer
     Public Property AlbumId As Integer
     Public Property Title As String
