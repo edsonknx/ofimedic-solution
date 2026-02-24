@@ -1,7 +1,8 @@
-﻿Imports System.Web.Http
-Imports Newtonsoft.Json
-Imports System.Threading.Tasks
+﻿Imports System.Net
 Imports System.Net.Http
+Imports System.Threading.Tasks
+Imports System.Web.Http
+Imports Newtonsoft.Json
 
 Public Class SyncController
     Inherits ApiController
@@ -11,41 +12,48 @@ Public Class SyncController
 
     Public Async Function PostSync() As Task(Of IHttpActionResult)
         Try
-            ' Sincronizar albums
-            Dim albumsResponse = Await client.GetStringAsync("https://jsonplaceholder.typicode.com/albums")
-            Dim albums = JsonConvert.DeserializeObject(Of List(Of Album))(albumsResponse)
 
+            Dim albumsUrl = "https://jsonplaceholder.typicode.com/albums"
+            Dim albumsJson = Await client.GetStringAsync(albumsUrl)
+            Dim albums = JsonConvert.DeserializeObject(Of List(Of Album))(albumsJson)
+
+            Dim albumsCount = 0
             For Each a In albums
-                Dim exists = db.Albums.Find(a.Id)
-                If exists Is Nothing Then
+                Dim existe = Await db.Albums.FindAsync(a.Id)
+                If existe Is Nothing Then
                     db.Albums.Add(a)
+                    albumsCount += 1
                 Else
-                    exists.UserId = a.UserId
-                    exists.Title = a.Title
+                    ' Actualizar si cambie
+                    existe.UserId = a.UserId
+                    existe.Title = a.Title
                 End If
             Next
+            Dim photosUrl = "https://jsonplaceholder.typicode.com/photos"
+            Dim photosJson = Await client.GetStringAsync(photosUrl)
+            Dim photos = JsonConvert.DeserializeObject(Of List(Of Photo))(photosJson)
 
-            ' Sincronizar photos
-            Dim photosResponse = Await client.GetStringAsync("https://jsonplaceholder.typicode.com/photos")
-            Dim photos = JsonConvert.DeserializeObject(Of List(Of Photo))(photosResponse)
-
+            Dim photosCount = 0
             For Each p In photos
-                Dim exists = db.Photos.Find(p.Id)
-                If exists Is Nothing Then
+                Dim existe = Await db.Photos.FindAsync(p.Id)
+                If existe Is Nothing Then
                     db.Photos.Add(p)
+                    photosCount += 1
                 Else
-                    exists.AlbumId = p.AlbumId
-                    exists.Title = p.Title
-                    exists.Url = p.Url
-                    exists.ThumbnailUrl = p.ThumbnailUrl
+                    ' Actualizar si cambió
+                    existe.AlbumId = p.AlbumId
+                    existe.Title = p.Title
+                    existe.Url = p.Url
+                    existe.ThumbnailUrl = p.ThumbnailUrl
                 End If
             Next
 
-            db.SaveChanges()
-            Return Ok(New With {.message = "Sincronización completada"})
+            Await db.SaveChangesAsync()
+
+            Return Ok("OK")
 
         Catch ex As Exception
-            Return InternalServerError(ex)
+            Return Content(HttpStatusCode.InternalServerError, "ERROR")
         End Try
     End Function
 End Class

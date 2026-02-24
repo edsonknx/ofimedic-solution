@@ -9,45 +9,50 @@ Public Class AlbumsController
 
     ' GET api/albums
     Public Function GetValues(Optional title As String = Nothing) As IHttpActionResult
-        Dim query = db.Albums.AsQueryable()
+        Try
+            Dim query = db.Albums.AsQueryable()
 
-        If Not String.IsNullOrEmpty(title) Then
-            query = query.Where(Function(a) a.Title.Contains(title))
-        End If
+            If Not String.IsNullOrEmpty(title) Then
+                query = query.Where(Function(a) a.Title.Contains(title))
+            End If
 
-        Return Ok(query.ToList())
+            ' Proyectamos solo las propiedades necesarias, sin incluir las fotos
+            Dim albums = query.Select(Function(a) New With {
+                .Id = a.Id,
+                .UserId = a.UserId,
+                .Title = a.Title
+            }).ToList()
+
+            Return Ok(albums)
+
+        Catch ex As Exception
+            Return Content(HttpStatusCode.InternalServerError, New With {
+                .error = ex.Message,
+                .innerError = If(ex.InnerException IsNot Nothing, ex.InnerException.Message, "")
+            })
+        End Try
     End Function
 
     ' GET api/albums/5
     Public Function GetValue(id As Integer) As IHttpActionResult
-        Dim album = db.Albums.Find(id)
-        If album Is Nothing Then
-            Return NotFound()
-        End If
-        Return Ok(album)
-    End Function
+        Try
+            Dim album = db.Albums.Find(id)
 
-    ' POST api/albums
-    Public Function PostValue(album As Album) As IHttpActionResult
-        db.Albums.Add(album)
-        db.SaveChanges()
-        Return Ok(album)
-    End Function
+            If album Is Nothing Then
+                Return NotFound()
+            End If
 
-    ' PUT api/albums/5
-    Public Function PutValue(id As Integer, album As Album) As IHttpActionResult
-        If id <> album.Id Then Return BadRequest()
-        db.Entry(album).State = EntityState.Modified
-        db.SaveChanges()
-        Return Ok(album)
-    End Function
+            ' También proyectamos aquí si querés evitar problemas
+            Dim resultado = New With {
+                .Id = album.Id,
+                .UserId = album.UserId,
+                .Title = album.Title
+            }
 
-    ' DELETE api/albums/5
-    Public Function DeleteValue(id As Integer) As IHttpActionResult
-        Dim album = db.Albums.Find(id)
-        If album Is Nothing Then Return NotFound()
-        db.Albums.Remove(album)
-        db.SaveChanges()
-        Return StatusCode(HttpStatusCode.NoContent)
+            Return Ok(resultado)
+
+        Catch ex As Exception
+            Return InternalServerError(ex)
+        End Try
     End Function
 End Class
