@@ -1,4 +1,4 @@
 <Solution>
+  <Project Path="../Ofimedic.Backend.VB/Ofimedic.Backend.VB.vbproj" Id="c66b72ee-39f9-4173-89b1-bcbaefa5570e" />
   <Project Path="../Ofimedic.Frontend/Ofimedic.Frontend/Ofimedic.Frontend.vbproj" />
-  <Project Path="Ofimedic.Backend/Ofimedic.Backend.csproj" />
 </Solution>

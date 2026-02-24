@@ -1,4 +1,4 @@
-﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Default.aspx.vb" Inherits="Ofimedic.Frontend._Default" %>
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Default.aspx.vb" Inherits="Ofimedic.Frontend._Default" Async="true"%>
 <%@ Import Namespace="Newtonsoft.Json" %>
 <%@ Import Namespace="System.Data" %>
 
