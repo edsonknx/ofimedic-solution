@@ -77,7 +77,7 @@ SELECT COUNT(*) FROM Photos;
 - Volver: Click en "← Volver"
 - Filtrar: Escribir "quia" y hacer click en "Filtrar"
 
-## Propuestas de mejoras (opcionales)
+## Propuestas de mejoras
 - Inyección de dependencias
 - Paginación
 - Logging con Serilog
