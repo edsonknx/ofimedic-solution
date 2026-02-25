@@ -74,7 +74,7 @@ SELECT COUNT(*) FROM Photos;
 
 ### Paso 10: Probar
 - Ver fotos: Click en "Ver Fotos" de cualquier álbum
-- Volver: Click en "← Volver"
+- Volver: Click en "Volver"
 - Filtrar: Escribir "quia" y hacer click en "Filtrar"
 
 ## Propuestas de mejoras
