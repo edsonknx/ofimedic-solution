@@ -39,4 +39,13 @@ Partial Public Class Fotos
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
     Protected WithEvents lblNoFotos As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Control litMensaje.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents litMensaje As Global.System.Web.UI.WebControls.Label
 End Class

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Fotos.aspx.vb" Inherits="Ofimedic.Frontend.Fotos" %>
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Fotos.aspx.vb" Inherits="Ofimedic.Frontend.Fotos" Async="true" %>
 <%@ Import Namespace="Newtonsoft.Json" %>
 <%@ Import Namespace="System.Data" %>
 
@@ -23,14 +23,16 @@
         
         <asp:Repeater ID="rptFotos" runat="server">
             <ItemTemplate>
-                <div class="foto">
-                    <img src='<%# Eval("ThumbnailUrl") %>' /><br />
-                    <%# Eval("Title") %>
+                <div style="display: inline-block; margin: 10px; text-align: center; border: 1px solid #ccc; padding: 10px; width: 150px;">
+                    <img src='<%# Eval("ThumbnailUrl") %>' style="width: 100px; height: 100px;" />
+                    <br />
+                    <span><%# Eval("Title") %></span>
                 </div>
             </ItemTemplate>
         </asp:Repeater>
         
-        <asp:Label ID="lblNoFotos" Text="No hay fotos" Visible="false" runat="server" />
+       <asp:Label ID="lblNoFotos" runat="server" Text="No hay fotos en este álbum" Visible="false" />
+       <asp:Label ID="litMensaje" runat="server" />
     </form>
 </body>
 </html>

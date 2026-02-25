@@ -1,4 +1,5 @@
-﻿Imports System.Net
+﻿Imports System.Data.Entity
+Imports System.Net
 Imports System.Net.Http
 Imports System.Threading.Tasks
 Imports System.Web.Http
@@ -10,13 +11,27 @@ Public Class SyncController
     Private db As New AppDbContext()
     Private client As New HttpClient()
 
+
     Public Async Function PostSync() As Task(Of IHttpActionResult)
         Try
+            ' Traer todos los datos
+            Dim tareaAlbumes = client.GetStringAsync("https://jsonplaceholder.typicode.com/albums")
+            Dim tareaFotos = client.GetStringAsync("https://jsonplaceholder.typicode.com/photos")
 
-            Dim albumsUrl = "https://jsonplaceholder.typicode.com/albums"
-            Dim albumsJson = Await client.GetStringAsync(albumsUrl)
+            Await Task.WhenAll(tareaAlbumes, tareaFotos)
+
+            Dim albumsJson = Await tareaAlbumes
+            Dim photosJson = Await tareaFotos
+
+            ' Deserializar
             Dim albums = JsonConvert.DeserializeObject(Of List(Of Album))(albumsJson)
+            Dim photos = JsonConvert.DeserializeObject(Of List(Of Photo))(photosJson)
 
+            ' Deshabilitar para optimizar
+            db.Configuration.AutoDetectChangesEnabled = False
+            db.Configuration.ValidateOnSaveEnabled = False
+
+            ' Guardar albumes
             Dim albumsCount = 0
             For Each a In albums
                 Dim existe = Await db.Albums.FindAsync(a.Id)
@@ -24,23 +39,37 @@ Public Class SyncController
                     db.Albums.Add(a)
                     albumsCount += 1
                 Else
-                    ' Actualizar si cambie
+                    ' Actualizar propiedades (solo si cambiaron)
                     existe.UserId = a.UserId
                     existe.Title = a.Title
                 End If
             Next
-            Dim photosUrl = "https://jsonplaceholder.typicode.com/photos"
-            Dim photosJson = Await client.GetStringAsync(photosUrl)
-            Dim photos = JsonConvert.DeserializeObject(Of List(Of Photo))(photosJson)
 
-            Dim photosCount = 0
+            ' Guardar fotos de forma óptima
+            ' Obtener IDs existentes 
+            Dim idsExistentes = New HashSet(Of Integer)(
+                Await db.Photos.Select(Function(p) p.Id).ToListAsync()
+            )
+
+            ' Separar fotos nuevas y existentes
+            Dim fotosNuevas = New List(Of Photo)()
+            Dim fotosExistentes = New List(Of Photo)()
+
             For Each p In photos
-                Dim existe = Await db.Photos.FindAsync(p.Id)
-                If existe Is Nothing Then
-                    db.Photos.Add(p)
-                    photosCount += 1
+                If idsExistentes.Contains(p.Id) Then
+                    fotosExistentes.Add(p)
                 Else
-                    ' Actualizar si cambió
+                    fotosNuevas.Add(p)
+                End If
+            Next
+
+            ' Agregar solo fotos nuevas
+            db.Photos.AddRange(fotosNuevas)
+
+            ' Actualizar existentes 
+            For Each p In fotosExistentes
+                Dim existe = Await db.Photos.FindAsync(p.Id)
+                If existe IsNot Nothing Then
                     existe.AlbumId = p.AlbumId
                     existe.Title = p.Title
                     existe.Url = p.Url
@@ -48,7 +77,12 @@ Public Class SyncController
                 End If
             Next
 
+            ' Guardar
             Await db.SaveChangesAsync()
+
+            ' Restaurar configuración
+            db.Configuration.AutoDetectChangesEnabled = True
+            db.Configuration.ValidateOnSaveEnabled = True
 
             Return Ok("OK")
 
