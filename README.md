@@ -12,7 +12,7 @@ Solución completa para la prueba técnica de Ofimedic que cumple con todos los 
 
 ### Paso 1: Obtener el proyecto
 Opción A - Clonar con Git:
-git clone https://github.com/edsonknx/ofimedic-simple.git
+git clone https://github.com/edsonknx/ofimedic-solution.git
 cd ofimedic-simple
 
 ### Paso 2: Configurar Base de Datos
