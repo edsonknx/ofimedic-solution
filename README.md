@@ -21,11 +21,13 @@ Ejecutar el script SQL ubicado en /Database en SQL Server Management Studio (SSM
 ### Paso 3: Configurar Cadena de Conexión
 Abrir Backend\Web.config y modifica:
 
+```xml
 <connectionStrings>
     <add name="OfimedicDB" 
          connectionString="Server=localhost;Database=OfimedicDB;Integrated Security=True;"
          providerName="System.Data.SqlClient" />
 </connectionStrings>
+\```
 
 Server=localhost debe configurarse con el nombre del SQL Server, ejemplo:
 - SQL Express: Server=localhost\SQLEXPRESS;
@@ -39,9 +41,11 @@ Server=localhost debe configurarse con el nombre del SQL Server, ejemplo:
 ### Paso 5: Configurar URL en Frontend
 Abrir Frontend\Web.config y actualiza:
 
+\```xml
 <appSettings>
     <add key="ApiBaseUrl" value="https://localhost:44386" />
 </appSettings>
+\```
 
 Importante: El puerto debe coincidir con el paso anterior.
 
