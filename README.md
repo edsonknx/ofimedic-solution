@@ -40,7 +40,7 @@ Server=localhost debe configurarse con el nombre del SQL Server, ejemplo:
 ### Paso 5: Configurar URL en Frontend
 Abrir Frontend\Web.config y actualiza:
 
-\```xml
+
 <appSettings>
     <add key="ApiBaseUrl" value="https://localhost:44386" />
 </appSettings>
