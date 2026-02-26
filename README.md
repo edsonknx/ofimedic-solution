@@ -27,6 +27,7 @@ Abrir Backend\Web.config y modifica:
          connectionString="Server=localhost;Database=OfimedicDB;Integrated Security=True;"
          providerName="System.Data.SqlClient" />
 </connectionStrings>
+```
 
 Server=localhost debe configurarse con el nombre del SQL Server, ejemplo:
 - SQL Express: Server=localhost\SQLEXPRESS;
