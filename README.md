@@ -84,6 +84,7 @@ SELECT COUNT(*) FROM Photos;
 ### Paso 11: Probar Endpoints con Postman
 -Por ejemplo crear Álbum: 
 
+```json
 POST https://localhost:44386/api/albums
 Content-Type: application/json
 
@@ -92,6 +93,7 @@ Content-Type: application/json
     "UserId": 1,
     "Title": "nuevo álbum"
 }
+```
 
 ## Propuestas de mejoras
 - Inyección de dependencias
