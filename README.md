@@ -82,7 +82,7 @@ SELECT COUNT(*) FROM Photos;
 - Filtrar: Escribir "quia" y hacer click en "Filtrar"
 
 ### Paso 11: Probar Endpoints con Postman
--Por ejemplo crear Álbum: 
+- Por ejemplo crear Álbum: 
 
 ```json
 POST https://localhost:44386/api/albums
